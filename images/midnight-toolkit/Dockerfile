@@ -28,7 +28,7 @@ RUN curl -L https://github.com/IntersectMBO/cardano-node/releases/download/${CAR
 RUN chmod +x /usr/local/bin/partner-chains-cli /usr/local/bin/partner-chains-node /usr/local/bin/sidechain-main-cli /usr/local/bin/cardano-cli
 
 #Scripts WIP
-Add the gen-all-keys.sh script
+# Add the gen-all-keys.sh script
 COPY gen-all-keys.sh /usr/local/bin/gen-all-keys.sh
 RUN chmod +x /usr/local/bin/gen-all-keys.sh
 
