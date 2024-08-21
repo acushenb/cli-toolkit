@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y \
     bash \
     vim \
     netcat-openbsd \
+    jq \
     && rm -rf /var/lib/apt/lists/*
 
 # Install partner-chains tools
