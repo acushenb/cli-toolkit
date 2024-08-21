@@ -42,29 +42,23 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Optionally increment the tag version using GitHub script
-      - name: Increment version
+      # Set a simple version manually
+      - name: Set version tag
         id: version
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const version = 'v1';  // Change this to v1.0.0, v2, etc.
-            const [major, minor, patch] = version.replace('v', '').split('.').map(Number);
-            const newPatch = patch + 1;
-            return `v${major}.${minor}.${newPatch}`;
-      
+        run: echo "VERSION=v1.0.$(date +%s)" >> $GITHUB_ENV
+
       - name: Build and push Docker image
         id: build-and-push
         uses: docker/build-push-action@v5.0.0
         with:
           context: ./images/midnight-toolkit
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.version.outputs.result }}  # Use the incremented version
-          labels: "version=${{ steps.version.outputs.result }}"  # Optional: Add a label
+          tags: ${{ env.VERSION }}  # Use the set version
+          labels: "version=${{ env.VERSION }}"  # Optional: Add a label
 
       - name: Sign the published Docker image
         if: ${{ github.event_name != 'pull_request' }}
         env:
-          TAGS: ${{ steps.version.outputs.result }}
+          TAGS: ${{ env.VERSION }}
           DIGEST: ${{ steps.build-and-push.outputs.digest }}
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
