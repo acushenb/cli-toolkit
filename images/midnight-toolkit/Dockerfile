@@ -2,7 +2,7 @@
 FROM debian:bookworm-slim
 
 # Set version arguments
-ARG PARTNER_CHAINS_VERSION=1.0.0
+ARG PARTNER_CHAINS_VERSION=1.1.0
 ARG CARDANO_VERSION=9.1.0
 
 # Install necessary packages
